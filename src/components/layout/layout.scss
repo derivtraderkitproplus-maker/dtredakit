@@ -18,3 +18,51 @@
         }
     }
 }
+
+/* AI Floating Action Button Styling */
+.ai-floating-btn {
+  position: fixed;
+  bottom: 110px; 
+  right: 20px;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.25) 0%, rgba(147, 51, 234, 0) 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999; 
+  box-shadow: 0 0 15px rgba(147, 51, 234, 0.35);
+
+  .ai-inner-circle {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .ai-text {
+    color: #ffffff;
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-status-dot {
+    position: absolute;
+    top: 1px;
+    right: 6px;
+    width: 7px;
+    height: 7px;
+    background-color: #22c55e; 
+    border-radius: 50%;
+    border: 1px solid #ffffff;
+  }
+}
