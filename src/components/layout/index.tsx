@@ -143,6 +143,7 @@ const Layout = observer(() => {
     }, [isAuthenticating, isInitialAuthCheckComplete]);
 
     return (
+        
         <div
             className={clsx('layout', {
                 responsive: isDesktop,
@@ -154,6 +155,14 @@ const Layout = observer(() => {
                 <Outlet />
             </Body>
             {!isCallbackPage && isDesktop && <Footer />}
+
+            {/* AI Floating Button */}
+            <div className="ai-floating-btn" id="aiToggleBtn">
+                <div className="ai-inner-circle">
+                    <span className="ai-text">AI</span>
+                    <span className="ai-status-dot"></span>
+                </div>
+            </div>
         </div>
     );
 });
