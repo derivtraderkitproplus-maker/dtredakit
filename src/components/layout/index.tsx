@@ -204,6 +204,13 @@ const handleStop = (e: any, data: any) => {
                     </div>
                 </div>
             </Draggable>
+<button className="risk-disclaimer-btn" onClick={() => alert("Trading derivatives involves high risk.")}>
+  <svg className="warning-icon" viewBox="0 0 24 24" width="16" height="16">
+    <path fill="currentColor" d="M12 2L1 21h22L12 2zm1 14h-2v-2h2v2zm0-4h-2V8h2v4z"/>
+  </svg>
+  Risk Disclaimer
+</button>
+
 
             {/* Optional: The popup panel that opens when you click the AI button */}
             {isOpen && <div className="ai-menu-popup">AI Panel Content</div>}
