@@ -68,7 +68,7 @@
 }
 .risk-disclaimer-btn {
   position: fixed;
-  bottom: 80px;
+  bottom: 12px; /* Changed from 80px to align with the arrow row */
   left: 15px;
   z-index: 1000;
   
@@ -76,7 +76,7 @@
   align-items: center;
   gap: 8px;
   
-  background-color: #FFCC00; /* Matching bright yellow */
+  background-color: #FFCC00; 
   color: #000000;
   font-family: sans-serif;
   font-weight: bold;
@@ -88,6 +88,7 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
+
 
 .risk-disclaimer-btn:hover {
   background-color: #E6B800;
