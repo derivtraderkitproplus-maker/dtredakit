@@ -175,6 +175,14 @@ const handleStop = (e: any, data: any) => {
             return () => clearTimeout(timer);
         }
     }, [isAuthenticating, isInitialAuthCheckComplete]);
+const [isDisclaimerOpen, setIsDisclaimerOpen] = React.useState(() => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('hideRiskDisclaimer') !== 'true';
+  }
+  return false;
+});
+
+
 
     return (
         
@@ -227,9 +235,9 @@ const handleStop = (e: any, data: any) => {
       </div>
       
       <div className="deriv-modal-footer">
-        <button className="deriv-btn-dont" onClick={() => setIsDisclaimerOpen(false)}>Don't Show Again</button>
-        <button className="deriv-btn-close" onClick={() => setIsDisclaimerOpen(false)}>Close</button>
-      </div>
+        <button className="deriv-btn-dont" onClick={() => { localStorage.setItem('hideRiskDisclaimer', 'true'); setIsDisclaimerOpen(false); }}>Don't Show Again</button>
+<button className="deriv-btn-close" onClick={() => setIsDisclaimerOpen(false)}>Close</button>
+
     </div>
   </div>
 )}
