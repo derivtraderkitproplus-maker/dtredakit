@@ -175,12 +175,14 @@ const handleStop = (e: any, data: any) => {
             return () => clearTimeout(timer);
         }
     }, [isAuthenticating, isInitialAuthCheckComplete]);
-const [isDisclaimerOpen, setIsDisclaimerOpen] = React.useState(() => {
-  if (typeof window !== 'undefined') {
-    return localStorage.getItem('hideRiskDisclaimer') !== 'true';
+const [isDisclaimerOpen, setIsDisclaimerOpen] = React.useState(false);
+
+React.useEffect(() => {
+  const hideDisclaimer = localStorage.getItem('hideRiskDisclaimer');
+  if (hideDisclaimer !== 'true') {
+    setIsDisclaimerOpen(true);
   }
-  return false;
-});
+}, []);
 
 
 
