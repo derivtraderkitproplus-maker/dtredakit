@@ -25,7 +25,7 @@ const dragStartPos = React.useRef({ x: 0, y: 0 });
   const wsRef = React.useRef(null);
 
   React.useEffect(() => {
-    wsRef.current = new WebSocket('wss://://binaryws.com');
+    wsRef.current = new WebSocket('wss://binaryws.com');
     wsRef.current.onopen = () => {
       ['R_10', 'R_25', 'R_75', 'RDBULL', 'RDBEAR'].forEach(symbol => {
         wsRef.current.send(JSON.stringify({ ticks: symbol, subscribe: 1 }));
