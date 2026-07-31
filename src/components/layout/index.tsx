@@ -196,6 +196,20 @@ React.useEffect(() => {
             })}
         >
             {!isCallbackPage && <AppHeader isAuthenticating={isAuthenticating || !isInitialAuthCheckComplete} />}
+            <div className="ticker-wrap">
+  <div className="ticker">
+    <div className="ticker__item positive">VOL 10 <span className="price">10101.8054</span></div>
+    <div className="ticker__item positive">VOL 25 <span class="price">2841.5521</span></div>
+    <div className="ticker__item negative">VOL 50 <span class="price">4510.1204</span></div>
+    <div className="ticker__item positive">VOL 75 <span class="price">9842.3315</span></div>
+    {/* Duplicated items for a seamless loop */}
+    <div className="ticker__item positive">VOL 10 <span class="price">10101.8054</span></div>
+    <div className="ticker__item positive">VOL 25 <span class="price">2841.5521</span></div>
+    <div className="ticker__item negative">VOL 50 <span class="price">4510.1204</span></div>
+    <div className="ticker__item positive">VOL 75 <span class="price">9842.3315</span></div>
+  </div>
+</div>
+
             <Body>
                       <Outlet />
     </Body>
