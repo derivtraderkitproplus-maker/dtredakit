@@ -197,53 +197,59 @@ React.useEffect(() => {
         >
             {!isCallbackPage && <AppHeader isAuthenticating={isAuthenticating || !isInitialAuthCheckComplete} />}
             <Body>
-                <Outlet />
-            </Body>
-            {!isCallbackPage && isDesktop && <Footer />}
+                      <Outlet />
+    </Body>
+    {!isCallbackPage && isDesktop && <Footer />}
 
-                       {/* AI Floating Button */}
-            <Draggable 
-                bounds="parent"
-                position={position}
-                onStart={handleStart}
-                onStop={handleStop}
-            >
-                <div className="ai-floating-btn ai-toggle-wrapper" id="aiToggleBtn">
-                    <div className="ai-inner-circle">
-                        <span className="ai-text">AI</span>
-                        <span className="ai-status-dot"></span>
-                    </div>
+    {/* AI Floating Button */}
+    <Draggable 
+        bounds="parent"
+        position={position}
+        onStart={handleStart}
+        onStop={handleStop}
+    >
+        <div className="ai-floating-btn ai-toggle-wrapper" id="aiToggleBtn">
+            <div className="ai-inner-circle">
+                <span className="ai-text">AI</span>
+                <span className="ai-status-dot"></span>
+            </div>
+        </div>
+    </Draggable>
+
+    {/* Risk Disclaimer Button */}
+    <button className="risk-disclaimer-btn" onClick={() => setIsDisclaimerOpen(true)}>
+        <svg className="warning-icon" viewBox="0 0 24 24" width="16" height="16">
+            <path fill="currentColor" d="M12 2L1 21h22L12 2zm1 14h-2v-2h2v2zm0-4h-2V8h2v4z"/>
+        </svg>
+        Risk Disclaimer
+    </button>
+
+    {/* Customized Modal Popup */}
+    {isDisclaimerOpen && (
+        <div className="deriv-modal-overlay" onClick={() => setIsDisclaimerOpen(false)}>
+            <div className="deriv-modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="deriv-modal-header">
+                    <h2>Risk Disclaimer</h2>
+                    <button className="deriv-modal-close-x" onClick={() => setIsDisclaimerOpen(false)}>&times;</button>
                 </div>
-            </Draggable>
-{/* Risk Disclaimer Button */}
-<button className="risk-disclaimer-btn" onClick={() => setIsDisclaimerOpen(true)}>
-  <svg className="warning-icon" viewBox="0 0 24 24" width="16" height="16">
-    <path fill="currentColor" d="M12 2L1 21h22L12 2zm1 14h-2v-2h2v2zm0-4h-2V8h2v4z"/>
-  </svg>
-  Risk Disclaimer
-</button>
+                
+                <div className="deriv-modal-body">
+                    <p>Please note that Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk. Please make sure that you understand the risks below, as they will affect your capital. You should not trade with money that you cannot afford to lose.</p>
+                    <p>Please note that when trading with real money, you may lose your entire capital due to market fluctuations. Also, currency conversion fees may apply when trading with a currency that differs from your account currency.</p>
+                </div>
+                
+                <div className="deriv-modal-footer">
+                    <button className="deriv-btn-dont" onClick={() => { localStorage.setItem('hideRiskDisclaimer', 'true'); setIsDisclaimerOpen(false); }}>Don't Show Again</button>
+                    <button className="deriv-btn-close" onClick={() => setIsDisclaimerOpen(false)}>Close</button>
+                </div>
+            </div>
+        </div>
+    )}
 
-{/* Customized Modal Popup */}
-{isDisclaimerOpen && (
-  <div className="deriv-modal-overlay" onClick={() => setIsDisclaimerOpen(false)}>
-    <div className="deriv-modal-content" onClick={(e) => e.stopPropagation()}>
-      <div className="deriv-modal-header">
-        <h2>Risk Disclaimer</h2>
-        <button className="deriv-modal-close-x" onClick={() => setIsDisclaimerOpen(false)}>&times;</button>
-      </div>
-      
-      <div className="deriv-modal-body">
-        <p>Please note that Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk. Please make sure that you understand the risks below, as they will affect your capital. You should not trade with money that you cannot afford to lose.</p>
-        <p>Please note that when trading with real money, you may lose your entire capital due to market fluctuations. Also, currency conversion fees may apply when trading with a currency that differs from your account currency.</p>
-      </div>
-      
-      <div className="deriv-modal-footer">
-        <button className="deriv-btn-dont" onClick={() => { localStorage.setItem('hideRiskDisclaimer', 'true'); setIsDisclaimerOpen(false); }}>Don't Show Again</button>
-<button className="deriv-btn-close" onClick={() => setIsDisclaimerOpen(false)}>Close</button>
-
-    </div>
-  </div>
-)}
+    {/* Optional: The popup panel that opens when you click the AI button */}
+    {isOpen && <div className="ai-menu-popup">AI Panel Content</div>}
+</div>
+  
 
 
 
