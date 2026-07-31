@@ -11,10 +11,44 @@ import Footer from './footer';
 import AppHeader from './header';
 import Body from './main-body';
 import './layout.scss';
+import Draggable from 'react-draggable';
 
 const Layout = observer(() => {
     const { isDesktop } = useDevice();
     const store = useStore();
+    const [isOpen, setIsOpen] = React.useState(false);
+const [position, setPosition] = React.useState({ x: 0, y: 0 });
+const dragStartPos = React.useRef({ x: 0, y: 0 });
+
+const handleStart = (e: any, data: any) => {
+  dragStartPos.current = { x: data.x, y: data.y };
+};
+
+const handleStop = (e: any, data: any) => {
+  const deltaX = Math.abs(data.x - dragStartPos.current.x);
+  const deltaY = Math.abs(data.y - dragStartPos.current.y);
+
+  if (deltaX < 5 && deltaY < 5) {
+    setIsOpen(!isOpen); 
+    return;
+  }
+
+  const windowWidth = window.innerWidth;
+  const element = document.querySelector('.ai-toggle-wrapper');
+  if (!element) return;
+  const rect = element.getBoundingClientRect();
+
+  const distanceToLeft = rect.left + data.x - dragStartPos.current.x;
+  const distanceToRight = windowWidth - (rect.right + data.x - dragStartPos.current.x);
+
+  const padding = 16; 
+  if (distanceToLeft < distanceToRight) {
+    setPosition({ x: -windowWidth + rect.width + padding * 2, y: data.y });
+  } else {
+    setPosition({ x: 0, y: data.y });
+  }
+};
+
     const is_quick_strategy_active = store?.quick_strategy?.is_open;
     const isCallbackPage = window.location.pathname === '/callback';
 
@@ -156,15 +190,26 @@ const Layout = observer(() => {
             </Body>
             {!isCallbackPage && isDesktop && <Footer />}
 
-            {/* AI Floating Button */}
-            <div className="ai-floating-btn" id="aiToggleBtn">
-                <div className="ai-inner-circle">
-                    <span className="ai-text">AI</span>
-                    <span className="ai-status-dot"></span>
+                       {/* AI Floating Button */}
+            <Draggable 
+                bounds="parent"
+                position={position}
+                onStart={handleStart}
+                onStop={handleStop}
+            >
+                <div className="ai-floating-btn ai-toggle-wrapper" id="aiToggleBtn">
+                    <div className="ai-inner-circle">
+                        <span className="ai-text">AI</span>
+                        <span className="ai-status-dot"></span>
+                    </div>
                 </div>
-            </div>
+            </Draggable>
+
+            {/* Optional: The popup panel that opens when you click the AI button */}
+            {isOpen && <div className="ai-menu-popup">AI Panel Content</div>}
         </div>
     );
 });
 
 export default Layout;
+
