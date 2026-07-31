@@ -20,6 +20,40 @@ const Layout = observer(() => {
     const [isOpen, setIsOpen] = React.useState(false);
 const [position, setPosition] = React.useState({ x: 0, y: 0 });
 const dragStartPos = React.useRef({ x: 0, y: 0 });
+  const [marketData, setMarketData] = React.useState({});
+  const [isPaused, setIsPaused] = React.useState(false);
+  const wsRef = React.useRef(null);
+
+  React.useEffect(() => {
+    wsRef.current = new WebSocket('wss://://binaryws.com');
+    wsRef.current.onopen = () => {
+      ['R_10', 'R_25', 'R_75', 'RDBULL', 'RDBEAR'].forEach(symbol => {
+        wsRef.current.send(JSON.stringify({ ticks: symbol, subscribe: 1 }));
+      });
+    };
+    wsRef.current.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.msg_type === 'tick' && data.tick) {
+        const { symbol, quote } = data.tick;
+        const newPrice = parseFloat(quote);
+        setMarketData(prev => {
+          const oldPrice = prev[symbol] ? prev[symbol].price : newPrice;
+          let dirClass = '';
+          if (newPrice > oldPrice) dirClass = 'flash-up';
+          if (newPrice < oldPrice) dirClass = 'flash-down';
+          return { ...prev, [symbol]: { price: newPrice.toFixed(4), direction: dirClass } };
+        });
+        setTimeout(() => {
+          setMarketData(prev => prev[symbol] ? { ...prev, [symbol]: { ...prev[symbol], direction: '' } } : prev);
+        }, 400);
+      }
+    };
+    return () => { if (wsRef.current) wsRef.current.close(); };
+  }, []);
+
+  const handleItemTap = (symbol) => {
+    window.location.href = `/trade?symbol=${symbol}`;
+  };
 
 const handleStart = (e: any, data: any) => {
   dragStartPos.current = { x: data.x, y: data.y };
