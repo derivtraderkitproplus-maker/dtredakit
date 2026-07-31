@@ -238,7 +238,7 @@ React.useEffect(() => {
                     <p>Please note that when trading with real money, you may lose your entire capital due to market fluctuations. Also, currency conversion fees may apply when trading with a currency that differs from your account currency.</p>
                 </div>
                 
-                <div className="deriv-modal-footer">
+                                <div className="deriv-modal-footer">
                     <button className="deriv-btn-dont" onClick={() => { localStorage.setItem('hideRiskDisclaimer', 'true'); setIsDisclaimerOpen(false); }}>Don't Show Again</button>
                     <button className="deriv-btn-close" onClick={() => setIsDisclaimerOpen(false)}>Close</button>
                 </div>
@@ -248,16 +248,8 @@ React.useEffect(() => {
 
     {/* Optional: The popup panel that opens when you click the AI button */}
     {isOpen && <div className="ai-menu-popup">AI Panel Content</div>}
-</div>
-  
-
-
-
-            {/* Optional: The popup panel that opens when you click the AI button */}
-            {isOpen && <div className="ai-menu-popup">AI Panel Content</div>}
-        </div>
+</div> // This closes the main layout container
     );
 });
 
 export default Layout;
-
