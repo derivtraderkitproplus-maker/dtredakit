@@ -1,5 +1,5 @@
 // @ts-nocheck - vendored bot code with known upstream type gaps; see AGENTS.md
-import { useEffect, useState } from 'react';
+
 
 interface TickerAsset {
   symbol: string;
