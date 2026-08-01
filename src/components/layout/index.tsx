@@ -191,6 +191,63 @@ const handleStop = (e: any, data: any) => {
             subscription = api_base.api.onMessage().subscribe(validateApiAccounts);
         }
     }, []);
+  const [markets, setMarkets] = useState<TickerAsset[]>([]);
+
+  useEffect(() => {
+    const ws = new WebSocket('wss://://derivws.com');
+
+    ws.onopen = () => {
+      ws.send(JSON.stringify({
+        active_symbols: "brief",
+        product_type: "basic",
+        landing_company: "svg"
+      }));
+    };
+
+    ws.onmessage = (event) => {
+      const response = JSON.parse(event.data);
+
+      if (response.msg_type === 'active_symbols') {
+        const allowedSubmarkets = ['volidx', 'daily_reset'];
+        const validSymbols = response.active_symbols.filter((asset: any) => 
+          allowedSubmarkets.includes(asset.submarket)
+        );
+
+        const initialMarkets = validSymbols.map((asset: any) => ({
+          symbol: asset.symbol,
+          displayName: asset.display_name.toUpperCase(),
+          price: "Loading...",
+          isPositive: true
+        }));
+        
+        setMarkets(initialMarkets);
+
+        validSymbols.forEach((asset: any) => {
+          ws.send(JSON.stringify({ ticks: asset.symbol }));
+        });
+      }
+
+      if (response.msg_type === 'tick' && response.tick) {
+        const { symbol, quote } = response.tick;
+        setMarkets((prevMarkets) =>
+          prevMarkets.map((m) => {
+            if (m.symbol === symbol) {
+              const numericPrice = parseFloat(quote);
+              const previousPrice = parseFloat(m.price);
+              return {
+                ...m,
+                price: numericPrice.toFixed(4),
+                isPositive: isNaN(previousPrice) || numericPrice >= previousPrice
+              };
+            }
+            return m;
+          })
+        );
+      }
+    };
+
+    return () => ws.close();
+  }, []);
 
     useEffect(() => {
         // Always set the currency in session storage, even if the user is not logged in
