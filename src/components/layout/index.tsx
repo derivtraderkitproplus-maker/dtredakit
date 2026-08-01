@@ -1,4 +1,12 @@
 // @ts-nocheck - vendored bot code with known upstream type gaps; see AGENTS.md
+import { useEffect, useState } from 'react';
+
+interface TickerAsset {
+  symbol: string;
+  displayName: string;
+  price: string;
+  isPositive: boolean;
+}
 
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
@@ -232,17 +240,28 @@ React.useEffect(() => {
             {!isCallbackPage && <AppHeader isAuthenticating={isAuthenticating || !isInitialAuthCheckComplete} />}
             <div className="ticker-wrap">
   <div className="ticker">
-    <div className="ticker__item positive">VOL 10 <span className="price">10101.8054</span></div>
-    <div className="ticker__item positive">VOL 25 <span class="price">2841.5521</span></div>
-    <div className="ticker__item negative">VOL 50 <span class="price">4510.1204</span></div>
-    <div className="ticker__item positive">VOL 75 <span class="price">9842.3315</span></div>
-    {/* Duplicated items for a seamless loop */}
-    <div className="ticker__item positive">VOL 10 <span class="price">10101.8054</span></div>
-    <div className="ticker__item positive">VOL 25 <span class="price">2841.5521</span></div>
-    <div className="ticker__item negative">VOL 50 <span class="price">4510.1204</span></div>
-    <div className="ticker__item positive">VOL 75 <span class="price">9842.3315</span></div>
-  </div>
+  {/* Render live markets dynamically */}
+  {markets.map((market, index) => (
+    <div 
+      key={`${market.symbol}-${index}`} 
+      className={`ticker__item ${market.isPositive ? 'positive' : 'negative'}`}
+    >
+      {market.displayName} <span className="price">{market.price}</span>
+    </div>
+  ))}
+  
+  {/* Duplicate the exact same array instantly for a seamless CSS loop */}
+  {markets.map((market, index) => (
+    <div 
+      key={`${market.symbol}-dup-${index}`} 
+      className={`ticker__item ${market.isPositive ? 'positive' : 'negative'}`}
+    >
+      {market.displayName} <span className="price">{market.price}</span>
+    </div>
+  ))}
 </div>
+
+
 
             <Body>
                       <Outlet />
