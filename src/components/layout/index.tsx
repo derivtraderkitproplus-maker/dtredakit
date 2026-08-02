@@ -319,29 +319,34 @@ React.useEffect(() => {
         });
       }
 
-      if (response.msg_type === 'tick' && response.tick) {
-        const { symbol, quote } = response.tick;
-        setMarkets((prevMarkets) =>
-          prevMarkets.map((m) => {
-            if (m.symbol === symbol) {
-              const numericPrice = parseFloat(quote);
-              const previousPrice = parseFloat(m.price);
-              return {
-                ...m,
-                                price: numericPrice.toFixed(4),
+          ws.onmessage = (event) => {
+        const response = JSON.parse(event.data);
+
+        if (response.msg_type === 'tick' && response.tick) {
+            const { symbol, quote } = response.tick;
+            setMarkets((prevMarkets) =>
+                prevMarkets.map((m) => {
+                    if (m.symbol === symbol) {
+                        const numericPrice = parseFloat(quote);
+                        const previousPrice = parseFloat(m.price);
+                        return {
+                            ...m,
+
+                                                price: numericPrice.toFixed(4),
                 isPositive: isNaN(previousPrice) || numericPrice >= previousPrice
               };
             }
             return m;
           })
         );
-      };
-    };
+      } // <--- REMOVED SEMICOLON, CLOSES: if (response.msg_type === 'tick')
+    };   // <--- CLOSES: ws.onmessage = (event) => {
 
     return () => {
       ws.close();
     };
 }, []);
+
 
          
 
