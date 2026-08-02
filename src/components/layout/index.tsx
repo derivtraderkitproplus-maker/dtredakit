@@ -344,40 +344,38 @@ React.useEffect(() => {
 
 
         return (
+           return (
         <div
             className={clsx('layout', {
                 responsive: isDesktop,
                 'quick-strategy-active': is_quick_strategy_active && !isDesktop,
             })}
         >
-                        <div className="ticker-wrap flex items-center gap-4 bg-[#101114] py-1 px-3 border-b border-[#1f2226] overflow-x-auto whitespace-nowrap scrollbar-none text-[11px] font-bold tracking-wide">
-    {markets.map((market, index) => {
-        let colorClass = 'text-emerald-500';
-        if (market.symbol?.includes('100')) colorClass = 'text-red-500';
-        else if (market.symbol?.includes('10')) colorClass = 'text-amber-500';
+            <div className="ticker-wrap flex items-center gap-4 bg-[#101114] py-1 px-3 border-b border-[#1f2226] overflow-x-auto whitespace-nowrap scrollbar-none text-[11px] font-bold tracking-wide">
+                {markets.map((market, index) => {
+                    let colorClass = 'text-emerald-500';
+                    if (market.symbol?.includes('100')) colorClass = 'text-red-500';
+                    else if (market.symbol?.includes('10')) colorClass = 'text-amber-500';
 
-        // Extract "VOL 100" and separate it from the price digits
-        const parts = market.displayName ? market.displayName.split(' ') : [];
-        const labelName = parts.slice(0, 2).join(' '); 
-        const priceValue = parts.slice(2).join(' ');
+                    const parts = market.displayName ? market.displayName.split(' ') : [];
+                    const labelName = parts.slice(0, 2).join(' '); 
+                    const priceValue = parts.slice(2).join(' ');
 
-        return (
-            <div
-                key={`${market.symbol}-${index}`}
-                className={`ticker__item flex items-center gap-1.5 ${market.isP || ''}`}
-            >
-                {/* Market label gets the clear color */}
-                <span className={colorClass}>{labelName || market.displayName}</span>
-                {/* Numeric price value gets a professional muted color */}
-                {priceValue && <span className="text-gray-400 font-medium">{priceValue}</span>}
+                    return (
+                        <div
+                            key={`${market.symbol}-${index}`}
+                            className={`ticker__item flex items-center gap-1.5 ${market.isP || ''}`}
+                        >
+                            <span className={colorClass}>{labelName || market.displayName}</span>
+                            {priceValue && <span className="text-gray-400 font-medium">{priceValue}</span>}
+                        </div>
+                    );
+                })}
             </div>
-        );
-    })}
-</div>
-
 
             {!isCallbackPage && <AppHeader />}
             <Body />
+ 
 
 
 
