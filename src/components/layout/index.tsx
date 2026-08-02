@@ -333,8 +333,8 @@ React.useEffect(() => {
               };
             }
                return m;
-        });
-    };
+        }))
+    }
 
     return () => ws.close();
 }, []);
