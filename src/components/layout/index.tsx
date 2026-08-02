@@ -424,7 +424,7 @@ React.useEffect(() => {
                 </div>
             </div>
                 </div>
-    )}
+    )})
 
     {/* Optional: The popup panel that opens when you click the AI button */}
     {isOpen && <div className="ai-menu-popup">AI Panel Content</div>}
