@@ -296,11 +296,11 @@ React.useEffect(() => {
       }));
     };
 
-
+    
     ws.onmessage = (event) => {
         const response = JSON.parse(event.data);
 
-        // 1. FIRST INCOMING MESSAGE: Handle the list of symbols from active_symbols
+        // 1. Process the active symbols list when it arrives from the Deriv API
         if (response.msg_type === 'active_symbols') {
             const allowedSubmarkets = ['volidx'];
             const validSymbols = response.active_symbols.filter((asset: any) =>
@@ -316,11 +316,13 @@ React.useEffect(() => {
 
             setMarkets(initialMarkets);
 
-            // Subscribe to live price ticks for each symbol
+            // Subscribe to live price ticks for each valid symbol
             validSymbols.forEach((asset: any) => {
                 ws.send(JSON.stringify({ ticks: asset.symbol }));
             });
         }
+
+    
 
         // 2. SUBSEQUENT MESSAGES: Handle the live real-time price updates
         if (response.msg_type === 'tick' && response.tick) {
