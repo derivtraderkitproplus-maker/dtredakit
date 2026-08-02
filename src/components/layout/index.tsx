@@ -370,7 +370,8 @@ React.useEffect(() => {
  
 
             {!isCallbackPage && <AppHeader />}
-            <Body>
+            <Body />
+
 
 
     {/* AI Floating Button */}
