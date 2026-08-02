@@ -328,16 +328,21 @@ React.useEffect(() => {
               const previousPrice = parseFloat(m.price);
               return {
                 ...m,
-                price: numericPrice.toFixed(4),
+                                price: numericPrice.toFixed(4),
                 isPositive: isNaN(previousPrice) || numericPrice >= previousPrice
               };
             }
-               return m;
-        }))
-    }
-  };
-    return () => ws.close();
+            return m;
+          })
+        );
+      };
+    };
+
+    return () => {
+      ws.close();
+    };
 }, []);
+
          
 
     return (
