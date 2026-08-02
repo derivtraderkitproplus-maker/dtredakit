@@ -283,78 +283,69 @@ React.useEffect(() => {
     setIsDisclaimerOpen(true);
   }
 }, []);
-  const [markets, setMarkets] = useState<TickerAsset[]>([]);
+      const [markets, setMarkets] = useState<any[]>([]);
 
-  useEffect(() => {
-    const ws = new WebSocket('wss://://derivws.com');
+    useEffect(() => {
+        const ws = new WebSocket('wss://://derivapi.com');
 
-    ws.onopen = () => {
-      ws.send(JSON.stringify({
-        active_symbols: "brief",
-        product_type: "basic",
-        landing_company: "svg"
-      }));
-    };
-
-    
-    ws.onmessage = (event) => {
-        const response = JSON.parse(event.data);
-
-        // 1. Process the active symbols list when it arrives from the Deriv API
-        if (response.msg_type === 'active_symbols') {
-            const allowedSubmarkets = ['volidx'];
-            const validSymbols = response.active_symbols.filter((asset: any) =>
-                allowedSubmarkets.includes(asset.submarket)
-            );
-
-            const initialMarkets = validSymbols.map((asset: any) => ({
-                symbol: asset.symbol,
-                displayName: asset.display_name.toUpperCase(),
-                price: "Loading...",
-                isPositive: true
+        ws.onopen = () => {
+            ws.send(JSON.stringify({
+                active_symbols: "brief",
+                product_type: "basic",
+                landing_company: "svg"
             }));
+        };
 
-            setMarkets(initialMarkets);
+        ws.onmessage = (event) => {
+            const response = JSON.parse(event.data);
 
-            // Subscribe to live price ticks for each valid symbol
-            validSymbols.forEach((asset: any) => {
-                ws.send(JSON.stringify({ ticks: asset.symbol }));
-            });
-        }
+            // 1. Process active symbols list
+            if (response.msg_type === 'active_symbols') {
+                const allowedSubmarkets = ['volidx'];
+                const validSymbols = response.active_symbols.filter((asset: any) =>
+                    allowedSubmarkets.includes(asset.submarket)
+                );
 
-    
+                const initialMarkets = validSymbols.map((asset: any) => ({
+                    symbol: asset.symbol,
+                    displayName: asset.display_name.toUpperCase(),
+                    price: "Loading...",
+                    isPositive: true
+                }));
 
-        // 2. SUBSEQUENT MESSAGES: Handle the live real-time price updates
-        if (response.msg_type === 'tick' && response.tick) {
-            const { symbol, quote } = response.tick;
-            
-            setMarkets((prevMarkets) =>
-                prevMarkets.map((m) => {
-                    if (m.symbol === symbol) {
-                        const numericPrice = parseFloat(quote);
-                        const previousPrice = parseFloat(m.price);
-                        return {
-                            ...m,
-                            price: numericPrice.toFixed(4),
-                            isPositive: isNaN(previousPrice) || numericPrice >= previousPrice,
-                        };
-                    }
-                    return m;
-                })
-            );
-        }
-    }; // Closes ws.onmessage
+                setMarkets(initialMarkets);
 
-    return () => {
-        ws.close();
-    };
-}, []); // Closes useEffect
+                validSymbols.forEach((asset: any) => {
+                    ws.send(JSON.stringify({ ticks: asset.symbol }));
+                });
+            }
 
+            // 2. Process real-time streaming price ticks
+            if (response.msg_type === 'tick' && response.tick) {
+                const { symbol, quote } = response.tick;
+                setMarkets((prevMarkets) =>
+                    prevMarkets.map((m) => {
+                        if (m.symbol === symbol) {
+                            const numericPrice = parseFloat(quote);
+                            const previousPrice = parseFloat(m.price);
+                            return {
+                                ...m,
+                                price: numericPrice.toFixed(4),
+                                isPositive: isNaN(previousPrice) || numericPrice >= previousPrice,
+                            };
+                        }
+                        return m;
+                    })
+                );
+            }
+        };
 
+        return () => {
+            ws.close();
+        };
+    }, []);
 
-         
-
-         return (
+    return (
         <>
             <div
                 className={clsx('layout', {
@@ -403,5 +394,8 @@ React.useEffect(() => {
 
 export default Layout;
 
- 
+    
+
+        
+        
   
