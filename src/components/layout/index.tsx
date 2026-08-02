@@ -394,6 +394,7 @@ React.useEffect(() => {
                 <span className="ai-text">AI</span>
                 <span className="ai-status-dot"></span>
             </div>
+          </div>
         </div>
     </Draggable>
 
