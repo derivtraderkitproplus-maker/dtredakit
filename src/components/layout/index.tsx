@@ -213,41 +213,34 @@ const handleStop = (e: any, data: any) => {
           allowedSubmarkets.includes(asset.submarket)
         );
 
-        const initialMarkets = validSymbols.map((asset: any) => ({
-          symbol: asset.symbol,
-          displayName: asset.display_name.toUpperCase(),
-          price: "Loading...",
-          isPositive: true
-        }));
-        
-        setMarkets(initialMarkets);
+            const initialMarkets = [
+        {
+            symbol: "R_25",
+            displayName: "VOL 25",
+            price: "245,612.40",
+            isPositive: true
+        }, {
+            symbol: "R_50",
+            displayName: "VOL 50",
+            price: "12,840.15",
+            isPositive: false
+        }, {
+            symbol: "R_75",
+            displayName: "VOL 75",
+            price: "683,110.90",
+            isPositive: true
+        }, {
+            symbol: "R_100",
+            displayName: "VOL 100",
+            price: "3,412.25",
+            isPositive: true
+        }
+    ];
+    
+    // Duplicate the array elements so the marquee loops seamlessly without an empty gap
+    setMarkets([...initialMarkets, ...initialMarkets, ...initialMarkets]);
+}, []);
 
-        validSymbols.forEach((asset: any) => {
-          ws.send(JSON.stringify({ ticks: asset.symbol }));
-        });
-      }
-
-      if (response.msg_type === 'tick' && response.tick) {
-        const { symbol, quote } = response.tick;
-        setMarkets((prevMarkets) =>
-          prevMarkets.map((m) => {
-            if (m.symbol === symbol) {
-              const numericPrice = parseFloat(quote);
-              const previousPrice = parseFloat(m.price);
-              return {
-                ...m,
-                price: numericPrice.toFixed(4),
-                isPositive: isNaN(previousPrice) || numericPrice >= previousPrice
-              };
-            }
-            return m;
-          })
-        );
-      }
-    };
-
-    return () => ws.close();
-  }, []);
 
     useEffect(() => {
         // Always set the currency in session storage, even if the user is not logged in
