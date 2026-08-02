@@ -213,35 +213,36 @@ const handleStop = (e: any, data: any) => {
           allowedSubmarkets.includes(asset.submarket)
         );
 
-            const initialMarkets = [
-        {
-            symbol: "R_25",
-            displayName: "VOL 25",
-            price: "245,612.40",
-            isPositive: true
-        }, {
-            symbol: "R_50",
-            displayName: "VOL 50",
-            price: "12,840.15",
-            isPositive: false
-        }, {
-            symbol: "R_75",
-            displayName: "VOL 75",
-            price: "683,110.90",
-            isPositive: true
-        }, {
-            symbol: "R_100",
-            displayName: "VOL 100",
-            price: "3,412.25",
-            isPositive: true
-        }
-    ];
-    
-    // Duplicate the array elements so the marquee loops seamlessly without an empty gap
-    setMarkets([...initialMarkets, ...initialMarkets, ...initialMarkets]);
-}, []);
-
-
+            
+    useEffect(() => {
+        const initialMarkets = [
+            {
+                symbol: "R_25",
+                displayName: "VOL 25",
+                price: "245,612.40",
+                isPositive: true
+            }, {
+                symbol: "R_50",
+                displayName: "VOL 50",
+                price: "12,840.15",
+                isPositive: false
+            }, {
+                symbol: "R_75",
+                displayName: "VOL 75",
+                price: "683,110.90",
+                isPositive: true
+            }, {
+                symbol: "R_100",
+                displayName: "VOL 100",
+                price: "3,412.25",
+                isPositive: true
+            }
+        ];
+        
+        // Duplicate the array elements so the marquee loops seamlessly
+        setMarkets([...initialMarkets, ...initialMarkets, ...initialMarkets]);
+    }, []);
+⁶
     useEffect(() => {
         // Always set the currency in session storage, even if the user is not logged in
         // This ensures the currency is available on the callback page
