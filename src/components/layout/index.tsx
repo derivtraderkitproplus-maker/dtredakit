@@ -352,7 +352,7 @@ React.useEffect(() => {
 
          
 
-    return (
+         return (
         <>
             <div
                 className={clsx('layout', {
@@ -379,15 +379,6 @@ React.useEffect(() => {
                 </div>
             </Draggable>
 
-            {/* Risk Disclaimer Button */}
-            <button className="risk-disclaimer-btn" onClick={() => setIsDisclaimerOpen(true)}>
-                <svg className="warning-icon" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM13 16h-2v2h2v-2zm0-6h-2v4h2v-4z" />
-                </svg>
-                Risk Disclaimer
-            </button>
-
-            {/* Customized Modal Popup */}
             {isDisclaimerOpen && (
                 <div className="deriv-modal-overlay" onClick={() => setIsDisclaimerOpen(false)}>
                     <div className="deriv-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -409,5 +400,6 @@ React.useEffect(() => {
 };
 
 export default Layout;
+
  
   
