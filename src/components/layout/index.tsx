@@ -340,98 +340,62 @@ React.useEffect(() => {
 }, []);
          
 
- return (
-  <div
-    className={clsx('layout', {
-      responsive: isDesktop,
-      'quick-strategy-active': is_quick_strategy_active && !isDesktop,
-    })}
-  >
-    {/* Wrapper hiding overflow */}
-    <div className="w-full bg-[#101114] border-b border-[#1f2226] overflow-hidden py-1">
-      {/* Animated track container */}
-      <div className="flex w-max animate-ticker gap-4 text-[11px] font-bold tracking-wide">
-        {/* Render content twice for a seamless infinite loop */}
-        {[...markets, ...markets].map((market, index) => {
-          let colorClass = 'text-emerald-500';
-          if (market.symbol?.includes('100')) colorClass = 'text-red-500';
-          else if (market.symbol?.includes('10')) colorClass = 'text-amber-500';
-
-          const parts = market.displayName ? market.displayName.split(' ') : [];
-          const labelName = parts.slice(0, 2).join(' '); 
-          const priceValue = parts.slice(2).join(' ');
-
-          return (
+    return (
+        <>
             <div
-              key={`${market.symbol}-${index}`}
-              className={`flex items-center gap-1.5 shrink-0 px-2 ${market.isP || ''}`}
+                className={clsx('layout', {
+                    responsive: isDesktop,
+                    'quick-strategy-active': is_quick_strategy_active,
+                })}
             >
-              <span className={colorClass}>{labelName || market.displayName}</span>
-              {priceValue && <span className="text-gray-400 font-medium">{priceValue}</span>}
+                {/* Dashboard / Ticker UI contents */}
             </div>
-          );
-        })}
-      </div>
-    
 
-    {!isCallbackPage && <AppHeader />}
-    <Body />
-  </div>
-);
-          
-
-
-    {/* AI Floating Button */}
-    <Draggable 
-        bounds="parent"
-        position={position}
-        onStart={handleStart}
-        onStop={handleStop}
-    >
-      <div>
-        <div className="ai-floating-btn ai-toggle-wrapper" id="aiToggleBtn">
-            <div className="ai-inner-circle">
-                <span className="ai-text">AI</span>
-                <span className="ai-status-dot"></span>
-            </div>
-          </div>
-        </div>
-    </Draggable>
-
-    {/* Risk Disclaimer Button */}
-    <button className="risk-disclaimer-btn" onClick={() => setIsDisclaimerOpen(true)}>
-        <svg className="warning-icon" viewBox="0 0 24 24" width="16" height="16">
-            <path fill="currentColor" d="M12 2L1 21h22L12 2zm1 14h-2v-2h2v2zm0-4h-2V8h2v4z"/>
-        </svg>
-        Risk Disclaimer
-    </button>
-
-    {/* Customized Modal Popup */}
-    {isDisclaimerOpen && (
-        <div className="deriv-modal-overlay" onClick={() => setIsDisclaimerOpen(false)}>
-            <div className="deriv-modal-content" onClick={(e) => e.stopPropagation()}>
-                <div className="deriv-modal-header">
-                    <h2>Risk Disclaimer</h2>
-                    <button className="deriv-modal-close-x" onClick={() => setIsDisclaimerOpen(false)}>&times;</button>
+            <Draggable
+                bounds="parent"
+                position={position}
+                onStart={handleStart}
+                onStop={handleStop}
+            >
+                <div>
+                    <div className="ai-floating-btn ai-toggle-wrapper" id="aiToggleBtn">
+                        <div className="ai-inner-circle">
+                            <span className="ai-text">AI</span>
+                            <span className="ai-status-dot"></span>
+                        </div>
+                    </div>
                 </div>
-                
-                <div className="deriv-modal-body">
-                    <p>Please note that Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk. Please make sure that you understand the risks below, as they will affect your capital. You should not trade with money that you cannot afford to lose.</p>
-                    <p>Please note that when trading with real money, you may lose your entire capital due to market fluctuations. Also, currency conversion fees may apply when trading with a currency that differs from your account currency.</p>
-                </div>
-                
-                                <div className="deriv-modal-footer">
-                    <button className="deriv-btn-dont" onClick={() => { localStorage.setItem('hideRiskDisclaimer', 'true'); setIsDisclaimerOpen(false); }}>Don't Show Again</button>
-                    <button className="deriv-btn-close" onClick={() => setIsDisclaimerOpen(false)}>Close</button>
-                </div>
-            </div>
-                </div>
-    )})
+            </Draggable>
 
-    {/* Optional: The popup panel that opens when you click the AI button */}
-    {isOpen && <div className="ai-menu-popup">AI Panel Content</div>}
-</div>
+            {/* Risk Disclaimer Button */}
+            <button className="risk-disclaimer-btn" onClick={() => setIsDisclaimerOpen(true)}>
+                <svg className="warning-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM13 16h-2v2h2v-2zm0-6h-2v4h2v-4z" />
+                </svg>
+                Risk Disclaimer
+            </button>
+
+            {/* Customized Modal Popup */}
+            {isDisclaimerOpen && (
+                <div className="deriv-modal-overlay" onClick={() => setIsDisclaimerOpen(false)}>
+                    <div className="deriv-modal-content" onClick={(e) => e.stopPropagation()}>
+                        <div className="deriv-modal-header">
+                            <h2>Risk Disclaimer</h2>
+                            <button className="deriv-modal-close" onClick={() => setIsDisclaimerOpen(false)}>&times;</button>
+                        </div>
+                        <div className="deriv-modal-body">
+                            <p>Please note that DerivTrac is an independent analytics dashboard tracking financial asset fluctuations.</p>
+                            <p>Please note that past performance is not an indicator of future market results. Trade safely.</p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isOpen && <div className="ai-menu-popup">AI Panel Content</div>}
+        </>
     );
 };
 
 export default Layout;
+ 
+  
