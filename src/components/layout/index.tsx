@@ -332,18 +332,14 @@ React.useEffect(() => {
                 isPositive: isNaN(previousPrice) || numericPrice >= previousPrice
               };
             }
-            return m;
-          })
-        );
-      }
+               return m;
+        });
     };
 
     return () => ws.close();
-  }, []);
+}, []);
+         
 
-
-
-      
  return (
   <div
     className={clsx('layout', {
