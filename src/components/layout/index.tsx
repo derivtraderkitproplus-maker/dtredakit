@@ -350,37 +350,20 @@ React.useEffect(() => {
                 responsive: isDesktop,
                 'quick-strategy-active': is_quick_strategy_active && !isDesktop,
             })}
-        >
-            {!isCallbackPage && <AppHeader isAuthenticating={isAuthenticating || !isInitialAuthCheckComplete} />}
+                >
             <div className="ticker-wrap">
-  <div className="ticker">
-  {/* Render live markets dynamically */}
-  {markets.map((market, index) => (
-    <div 
-      key={`${market.symbol}-${index}`} 
-      className={`ticker__item ${market.isPositive ? 'positive' : 'negative'}`}
-    >
-      {market.displayName} <span className="price">{market.price}</span>
-    </div>
-  ))}
-  
-  {/* Duplicate the exact same array instantly for a seamless CSS loop */}
-  {markets.map((market, index) => (
-    <div 
-      key={`${market.symbol}-dup-${index}`} 
-      className={`ticker__item ${market.isPositive ? 'positive' : 'negative'}`}
-    >
-      {market.displayName} <span className="price">{market.price}</span>
-    </div>
-  ))}
-</div>
-
-
-
+                {markets.map((market, index) => (
+                    <div
+                        key={`${market.symbol}-${index}`}
+                        className={`ticker__item ${market.isP}`}
+                    >
+                        {market.displayName}
+                    </div>
+                ))}
+            </div>
+            {!isCallbackPage && <AppHeader />}
             <Body>
-                      <Outlet />
-    </Body>
-    {!isCallbackPage && isDesktop && <Footer />}
+
 
     {/* AI Floating Button */}
     <Draggable 
