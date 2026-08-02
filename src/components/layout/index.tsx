@@ -388,6 +388,7 @@ React.useEffect(() => {
         onStart={handleStart}
         onStop={handleStop}
     >
+      <div>
         <div className="ai-floating-btn ai-toggle-wrapper" id="aiToggleBtn">
             <div className="ai-inner-circle">
                 <span className="ai-text">AI</span>
