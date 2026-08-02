@@ -407,16 +407,15 @@ React.useEffect(() => {
                     <button className="deriv-btn-close" onClick={() => setIsDisclaimerOpen(false)}>Close</button>
                 </div>
             </div>
-        </div>
+                </div>
     )}
 
     {/* Optional: The popup panel that opens when you click the AI button */}
-            {isOpen && <div className="ai-menu-popup">AI Panel Content</div>}
-  </div>
+    {isOpen && <div className="ai-menu-popup">AI Panel Content</div>}
+</>
     );
 }
 
 export default Layout;
-
 
 
