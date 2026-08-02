@@ -197,64 +197,85 @@
 .ticker-wrap {
   width: 100%;
   overflow: hidden;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
-  box-sizing: border-box;
-  position: relative;
-  z-index: 99;
-  display: block;
-  clear: both;
-  padding: 14px 0; 
-  min-height: 45px; 
+  
+    background-color: #15171f;
+    border-bottom: 1px solid #222634;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 99;
+    display: block;
+    clear: both;
+    padding: 12px 0;
+    min-height: 45px;
+}
 
-  .ticker {
+.ticker {
     display: flex;
     align-items: center;
     width: max-content;
     animation: marquee 25s linear infinite;
     line-height: 1.5;
-  }
+    
+    &:hover {
+        animation-play-state: paused;
+    }
+}
 
-  .ticker__item {
+.ticker__item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 6px 2rem;
     border-radius: 4px;
-    font-family: sans-serif;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 13px;
     font-weight: 700;
     white-space: nowrap;
     transition: background-color 0.2s ease;
 
-    &.vol-idx { color: #a2cbd6; }
-    &.bull-market { color: #40c4ff; }
-    &.bear-market { color: #ffb74d; }
+    .price-val {
+        color: #f2f4f7;
+    }
+
+    &.vol-idx { 
+        color: #8592a3; 
+    }
+    
+    &.bull-market { 
+        color: #12b76a; 
+    }
+    
+    &.bear-market { 
+        color: #f04438; 
+    }
+}
 
     .price {
-      color: #9cb1c6;
-      margin-left: 6px;
-      font-weight: 500;
+        color: #f2f4f7;
+        margin-left: 6px;
+        font-weight: 500;
     }
 
     &.flash-up {
-      animation: flashGreen 0.4s ease-out;
+        animation: flashGreen 0.4s ease-out;
     }
 
     &.flash-down {
-      animation: flashRed 0.4s ease-out;
+        animation: flashRed 0.4s ease-out;
     }
-  }
 }
 
 @keyframes marquee {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
 }
 
 @keyframes flashGreen {
-  0% { background-color: rgba(46, 189, 133, 0.4); }
-  100% { background-color: transparent; }
+    0% { background-color: rgba(18, 183, 106, 0.25); }
+    100% { background-color: transparent; }
 }
 
 @keyframes flashRed {
-  0% { background-color: rgba(223, 41, 74, 0.4); }
-  100% { background-color: transparent; }
+    0% { background-color: rgba(240, 68, 56, 0.25); }
+    100% { background-color: transparent; }
 }
