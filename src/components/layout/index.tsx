@@ -351,16 +351,23 @@ React.useEffect(() => {
                 'quick-strategy-active': is_quick_strategy_active && !isDesktop,
             })}
                 >
-            <div className="ticker-wrap">
-                {markets.map((market, index) => (
-                    <div
-                        key={`${market.symbol}-${index}`}
-                        className={`ticker__item ${market.isP}`}
-                    >
-                        {market.displayName}
+                                <div className="ticker-wrap flex items-center gap-4 bg-[#101114] py-1 px-3 border-b border-[#1f2226] overflow-x-auto whitespace-nowrap scrollbar-none text-[11px] font-bold tracking-wide">
+                        {markets.map((market, index) => {
+                            let colorClass = 'text-emerald-500';
+                            if (market.symbol?.includes('100')) colorClass = 'text-red-500';
+                            else if (market.symbol?.includes('10')) colorClass = 'text-amber-500';
+
+                            return (
+                                <div
+                                    key={`${market.symbol}-${index}`}
+                                    className={`ticker__item flex items-center gap-1.5 ${market.isP}`}
+                                >
+                                    <span className={colorClass}>{market.displayName}</span>
+                                </div>
+                            );
+                        })}
                     </div>
-                ))}
-            </div>
+
             {!isCallbackPage && <AppHeader />}
             <Body>
 
