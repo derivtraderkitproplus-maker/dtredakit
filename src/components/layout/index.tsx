@@ -296,34 +296,36 @@ React.useEffect(() => {
       }));
     };
 
+
     ws.onmessage = (event) => {
-      const response = JSON.parse(event.data);
-
-      if (response.msg_type === 'active_symbols') {
-        const allowedSubmarkets = ['volidx', 'daily_reset'];
-        const validSymbols = response.active_symbols.filter((asset: any) => 
-          allowedSubmarkets.includes(asset.submarket)
-        );
-
-        const initialMarkets = validSymbols.map((asset: any) => ({
-          symbol: asset.symbol,
-          displayName: asset.display_name.toUpperCase(),
-          price: "Loading...",
-          isPositive: true
-        }));
-        
-        setMarkets(initialMarkets);
-
-        validSymbols.forEach((asset: any) => {
-          ws.send(JSON.stringify({ ticks: asset.symbol }));
-        });
-      }
-
-          ws.onmessage = (event) => {
         const response = JSON.parse(event.data);
 
+        // 1. FIRST INCOMING MESSAGE: Handle the list of symbols from active_symbols
+        if (response.msg_type === 'active_symbols') {
+            const allowedSubmarkets = ['volidx'];
+            const validSymbols = response.active_symbols.filter((asset: any) =>
+                allowedSubmarkets.includes(asset.submarket)
+            );
+
+            const initialMarkets = validSymbols.map((asset: any) => ({
+                symbol: asset.symbol,
+                displayName: asset.display_name.toUpperCase(),
+                price: "Loading...",
+                isPositive: true
+            }));
+
+            setMarkets(initialMarkets);
+
+            // Subscribe to live price ticks for each symbol
+            validSymbols.forEach((asset: any) => {
+                ws.send(JSON.stringify({ ticks: asset.symbol }));
+            });
+        }
+
+        // 2. SUBSEQUENT MESSAGES: Handle the live real-time price updates
         if (response.msg_type === 'tick' && response.tick) {
             const { symbol, quote } = response.tick;
+            
             setMarkets((prevMarkets) =>
                 prevMarkets.map((m) => {
                     if (m.symbol === symbol) {
@@ -331,21 +333,21 @@ React.useEffect(() => {
                         const previousPrice = parseFloat(m.price);
                         return {
                             ...m,
-
-                                                price: numericPrice.toFixed(4),
-                isPositive: isNaN(previousPrice) || numericPrice >= previousPrice
-              };
-            }
-            return m;
-          })
-        );
-      } // <--- REMOVED SEMICOLON, CLOSES: if (response.msg_type === 'tick')
-    };   // <--- CLOSES: ws.onmessage = (event) => {
+                            price: numericPrice.toFixed(4),
+                            isPositive: isNaN(previousPrice) || numericPrice >= previousPrice,
+                        };
+                    }
+                    return m;
+                })
+            );
+        }
+    }; // Closes ws.onmessage
 
     return () => {
-      ws.close();
+        ws.close();
     };
-}, []);
+}, []); // Closes useEffect
+
 
 
          
