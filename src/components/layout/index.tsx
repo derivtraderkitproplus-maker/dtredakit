@@ -204,15 +204,6 @@ const handleStop = (e: any, data: any) => {
       }));
     };
 
-    ws.onmessage = (event) => {
-      const response = JSON.parse(event.data);
-
-      if (response.msg_type === 'active_symbols') {
-        const allowedSubmarkets = ['volidx', 'daily_reset'];
-        const validSymbols = response.active_symbols.filter((asset: any) => 
-          allowedSubmarkets.includes(asset.submarket)
-        );
-
             
     useEffect(() => {
         const initialMarkets = [
