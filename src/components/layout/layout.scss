@@ -222,6 +222,11 @@
     animation-play-state: paused;
   }
 }
+.ticker__track {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
 
 .ticker__item {
     display: flex;
