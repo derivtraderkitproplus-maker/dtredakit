@@ -203,7 +203,7 @@
     box-sizing: border-box;
     position: relative;
     z-index: 99;
-    display: block;
+    display: flex;
     clear: both;
     padding: 12px 0;
     min-height: 45px;
@@ -239,6 +239,17 @@
     font-weight: 700;
     white-space: nowrap;
     transition: background-color 0.2s ease;
+  color: #e2e8f0;
+
+  &.positive {
+    color: #4ade80; /* Clean, modern mint green */
+    .price { color: #4ade80; }
+  }
+
+  &.negative {
+    color: #f87171; /* Sharp, modern coral red */
+    .price { color: #f87171; }
+  }
 
     .price-val {
         color: #f2f4f7;
