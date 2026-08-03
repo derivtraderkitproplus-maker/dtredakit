@@ -195,129 +195,66 @@
   color: #ffffff;
 }
 .ticker-wrap {
-  width: 100%;
-  overflow: hidden;
-  
+    width: 100%;
+    overflow: hidden;
     background-color: #15171f;
     border-bottom: 1px solid #222634;
     box-sizing: border-box;
     position: relative;
     z-index: 99;
     display: flex;
-    clear: both;
     padding: 12px 0;
     min-height: 45px;
 }
 
-.ticker {
-    display: flex;
-    flex-direction: row;
+.ticker__track {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;  /* Strictly prevents items from stacking or creating new rows */
+    align-items: center;
     width: max-content;
-    white-space: nowrap;
+    white-space: nowrap !important; /* Prevents text elements from breaking onto separate lines */
     flex-shrink: 0;
-    animation: marquee 25s linear infinite;
-    line-height: 1.5;
-    gap: 2rem;
-
-    span, div, p { 
-        display: inline-block;
-        padding: 0 10px;
-    }
+    gap: 3.5rem !important;        /* Guarantees clean breathing space between items side by side */
+    animation: scroll-left 25s linear infinite;
 
     &:hover {
         animation-play-state: paused;
     }
 }
 
-
-.ticker__track {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    gap: 2.5rem !important;
-    width: max-content;
-    flex-wrap: nowrap;
-    animation: scroll-left 20s linear infinite;
-}
-
-@keyframes scroll-left {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
-
-
-
-
 .ticker__item {
     display: flex !important;
+    flex-direction: row !important;
     align-items: center;
-    gap: 16px !important; 
-    padding: 6px 2rem;
-    border-radius: 4px;
-    margin-right: 3rem !important; 
+    flex-shrink: 0;
+    gap: 12px !important; 
+    padding: 4px 1rem;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 13px;
     font-weight: 700;
-    white-space: nowrap;
-    transition: background-color 0.2s ease;
+    white-space: nowrap !important;
     color: #e2e8f0;
+
+    .price-val, .price {
+        color: #f2f4f7;
+        display: inline-block;
+        white-space: nowrap !important;
+    }
+
+    &.positive {
+        color: #4ade80; 
+        .price { color: #4ade80; }
+    }
+
+    &.negative {
+        color: #f87171; 
+        .price { color: #f87171; }
+    }
 }
 
-
-  &.positive {
-    color: #4ade80; /* Clean, modern mint green */
-    .price { color: #4ade80; }
-  }
-
-  &.negative {
-    color: #f87171; /* Sharp, modern coral red */
-    .price { color: #f87171; }
-  }
-
-    .price-val {
-        color: #f2f4f7;
-    }
-
-    &.vol-idx { 
-        color: #8592a3; 
-    }
-    
-    &.bull-market { 
-        color: #12b76a; 
-    }
-    
-    &.bear-market { 
-        color: #f04438; 
-    }
-
-
-    .price {
-        color: #f2f4f7;
-        margin-left: 6px;
-        font-weight: 500;
-    }
-
-    &.flash-up {
-        animation: flashGreen 0.4s ease-out;
-    }
-
-    &.flash-down {
-        animation: flashRed 0.4s ease-out;
-    }
-
-
-@keyframes marquee {
+@keyframes scroll-left {
     0% { transform: translate3d(0, 0, 0); }
     100% { transform: translate3d(-50%, 0, 0); }
 }
 
-@keyframes flashGreen {
-    0% { background-color: rgba(18, 183, 106, 0.25); }
-    100% { background-color: transparent; }
-}
-
-@keyframes flashRed {
-    0% { background-color: rgba(240, 68, 56, 0.25); }
-    100% { background-color: transparent; }
-}
