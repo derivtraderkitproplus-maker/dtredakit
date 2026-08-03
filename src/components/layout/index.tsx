@@ -1,13 +1,5 @@
 // @ts-nocheck - vendored bot code with known upstream type gaps; see AGENTS.md
 
-
-interface TickerAsset {
-  symbol: string;
-  displayName: string;
-  price: string;
-  isPositive: boolean;
-}
-
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
@@ -141,7 +133,8 @@ const handleStop = (e: any, data: any) => {
                 }
                 detected_currency = data.currency;
                 return false;
-            
+            });
+
             let hasMissingToken = false;
             let missingTokenCurrency = '';
 
@@ -179,41 +172,16 @@ const handleStop = (e: any, data: any) => {
             if (subscription) {
                 subscription?.unsubscribe();
             }
-        
-        
+        }
+    };
 
-    
-  const [markets, setMarkets] = useState<TickerAsset[]>([]);
-
-  
-            
     useEffect(() => {
-        const initialMarkets = [
-            {
-                symbol: "R_25",
-                displayName: "VOL 25",
-                price: "245,612.40",
-                isPositive: true
-            }, {
-                symbol: "R_50",
-                displayName: "VOL 50",
-                price: "12,840.15",
-                isPositive: false
-            }, {
-                symbol: "R_75",
-                displayName: "VOL 75",
-                price: "683,110.90",
-                isPositive: true
-            }, {
-                symbol: "R_100",
-                displayName: "VOL 100",
-                price: "3,412.25",
-                isPositive: true
-            }
-        ];
-        
-        // Duplicate the array elements so the marquee loops seamlessly
-        setMarkets([...initialMarkets, ...initialMarkets, ...initialMarkets]);
+        if (isCurrencyValid && api_base.api) {
+            // Subscribe to the onMessage event
+            const is_valid_currency = currency && validCurrencies.includes(currency.toUpperCase());
+            if (!is_valid_currency) return;
+            subscription = api_base.api.onMessage().subscribe(validateApiAccounts);
+        }
     }, []);
 
     useEffect(() => {
@@ -250,119 +218,86 @@ React.useEffect(() => {
     setIsDisclaimerOpen(true);
   }
 }, []);
-      const [markets, setMarkets] = useState<any[]>([]);
 
-    useEffect(() => {
-        const ws = new WebSocket('wss://://derivapi.com');
 
-        ws.onopen = () => {
-            ws.send(JSON.stringify({
-                active_symbols: "brief",
-                product_type: "basic",
-                landing_company: "svg"
-            }));
-        };
-
-        ws.onmessage = (event) => {
-            const response = JSON.parse(event.data);
-
-            // 1. Process active symbols list
-            if (response.msg_type === 'active_symbols') {
-                const allowedSubmarkets = ['volidx'];
-                const validSymbols = response.active_symbols.filter((asset: any) =>
-                    allowedSubmarkets.includes(asset.submarket)
-                );
-
-                const initialMarkets = validSymbols.map((asset: any) => ({
-                    symbol: asset.symbol,
-                    displayName: asset.display_name.toUpperCase(),
-                    price: "Loading...",
-                    isPositive: true
-                }));
-
-                setMarkets(initialMarkets);
-
-                validSymbols.forEach((asset: any) => {
-                    ws.send(JSON.stringify({ ticks: asset.symbol }));
-                });
-            }
-
-            // 2. Process real-time streaming price ticks
-            if (response.msg_type === 'tick' && response.tick) {
-                const { symbol, quote } = response.tick;
-                setMarkets((prevMarkets) =>
-                    prevMarkets.map((m) => {
-                        if (m.symbol === symbol) {
-                            const numericPrice = parseFloat(quote);
-                            const previousPrice = parseFloat(m.price);
-                            return {
-                                ...m,
-                                price: numericPrice.toFixed(4),
-                                isPositive: isNaN(previousPrice) || numericPrice >= previousPrice,
-                            };
-                        }
-                        return m;
-                    })
-                );
-            }
-        };
-
-        return () => {
-            ws.close();
-        };
-    }, []);
 
     return (
-        <>
-            <div
-                className={clsx('layout', {
-                    responsive: isDesktop,
-                    'quick-strategy-active': is_quick_strategy_active,
-                })}
-            >
-                {/* Dashboard / Ticker UI contents */}
+        
+        <div
+            className={clsx('layout', {
+                responsive: isDesktop,
+                'quick-strategy-active': is_quick_strategy_active && !isDesktop,
+            })}
+        >
+            {!isCallbackPage && <AppHeader isAuthenticating={isAuthenticating || !isInitialAuthCheckComplete} />}
+            <div className="ticker-wrap">
+  <div className="ticker">
+    <div className="ticker__item positive">VOL 10 <span className="price">10101.8054</span></div>
+    <div className="ticker__item positive">VOL 25 <span class="price">2841.5521</span></div>
+    <div className="ticker__item negative">VOL 50 <span class="price">4510.1204</span></div>
+    <div className="ticker__item positive">VOL 75 <span class="price">9842.3315</span></div>
+    {/* Duplicated items for a seamless loop */}
+    <div className="ticker__item positive">VOL 10 <span class="price">10101.8054</span></div>
+    <div className="ticker__item positive">VOL 25 <span class="price">2841.5521</span></div>
+    <div className="ticker__item negative">VOL 50 <span class="price">4510.1204</span></div>
+    <div className="ticker__item positive">VOL 75 <span class="price">9842.3315</span></div>
+  </div>
+</div>
+
+            <Body>
+                      <Outlet />
+    </Body>
+    {!isCallbackPage && isDesktop && <Footer />}
+
+    {/* AI Floating Button */}
+    <Draggable 
+        bounds="parent"
+        position={position}
+        onStart={handleStart}
+        onStop={handleStop}
+    >
+        <div className="ai-floating-btn ai-toggle-wrapper" id="aiToggleBtn">
+            <div className="ai-inner-circle">
+                <span className="ai-text">AI</span>
+                <span className="ai-status-dot"></span>
             </div>
+        </div>
+    </Draggable>
 
-            <Draggable
-                bounds="parent"
-                position={position}
-                onStart={handleStart}
-                onStop={handleStop}
-            >
-                <div>
-                    <div className="ai-floating-btn ai-toggle-wrapper" id="aiToggleBtn">
-                        <div className="ai-inner-circle">
-                            <span className="ai-text">AI</span>
-                            <span className="ai-status-dot"></span>
-                        </div>
-                    </div>
+    {/* Risk Disclaimer Button */}
+    <button className="risk-disclaimer-btn" onClick={() => setIsDisclaimerOpen(true)}>
+        <svg className="warning-icon" viewBox="0 0 24 24" width="16" height="16">
+            <path fill="currentColor" d="M12 2L1 21h22L12 2zm1 14h-2v-2h2v2zm0-4h-2V8h2v4z"/>
+        </svg>
+        Risk Disclaimer
+    </button>
+
+    {/* Customized Modal Popup */}
+    {isDisclaimerOpen && (
+        <div className="deriv-modal-overlay" onClick={() => setIsDisclaimerOpen(false)}>
+            <div className="deriv-modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="deriv-modal-header">
+                    <h2>Risk Disclaimer</h2>
+                    <button className="deriv-modal-close-x" onClick={() => setIsDisclaimerOpen(false)}>&times;</button>
                 </div>
-            </Draggable>
-
-            {isDisclaimerOpen && (
-                <div className="deriv-modal-overlay" onClick={() => setIsDisclaimerOpen(false)}>
-                    <div className="deriv-modal-content" onClick={(e) => e.stopPropagation()}>
-                        <div className="deriv-modal-header">
-                            <h2>Risk Disclaimer</h2>
-                            <button className="deriv-modal-close" onClick={() => setIsDisclaimerOpen(false)}>&times;</button>
-                        </div>
-                        <div className="deriv-modal-body">
-                            <p>Please note that DerivTrac is an independent analytics dashboard tracking financial asset fluctuations.</p>
-                            <p>Please note that past performance is not an indicator of future market results. Trade safely.</p>
-                        </div>
-                    </div>
+                
+                <div className="deriv-modal-body">
+                    <p>Please note that Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk. Please make sure that you understand the risks below, as they will affect your capital. You should not trade with money that you cannot afford to lose.</p>
+                    <p>Please note that when trading with real money, you may lose your entire capital due to market fluctuations. Also, currency conversion fees may apply when trading with a currency that differs from your account currency.</p>
                 </div>
-            )}
+                
+                                <div className="deriv-modal-footer">
+                    <button className="deriv-btn-dont" onClick={() => { localStorage.setItem('hideRiskDisclaimer', 'true'); setIsDisclaimerOpen(false); }}>Don't Show Again</button>
+                    <button className="deriv-btn-close" onClick={() => setIsDisclaimerOpen(false)}>Close</button>
+                </div>
+            </div>
+        </div>
+    )}
 
-            {isOpen && <div className="ai-menu-popup">AI Panel Content</div>}
-        </>
+    {/* Optional: The popup panel that opens when you click the AI button */}
+    {isOpen && <div className="ai-menu-popup">AI Panel Content</div>}
+</div> // This closes the main layout container
     );
-};
+});
 
 export default Layout;
-
-    
-
-        
-        
-  
