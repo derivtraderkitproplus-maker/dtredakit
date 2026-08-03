@@ -180,7 +180,7 @@ const handleStop = (e: any, data: any) => {
                 subscription?.unsubscribe();
             }
         
-        }
+        
 
     
   const [markets, setMarkets] = useState<TickerAsset[]>([]);
