@@ -236,7 +236,15 @@
     flex-shrink: 0;
     gap: 2.5rem !important;
     width: max-content;
+    flex-wrap: nowrap;
+    animation: scroll-left 20s linear infinite;
 }
+
+@keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
 
 
 
