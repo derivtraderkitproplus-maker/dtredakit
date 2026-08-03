@@ -242,7 +242,7 @@ const handleStop = (e: any, data: any) => {
         // Duplicate the array elements so the marquee loops seamlessly
         setMarkets([...initialMarkets, ...initialMarkets, ...initialMarkets]);
     }, []);
-⁶
+
     useEffect(() => {
         // Always set the currency in session storage, even if the user is not logged in
         // This ensures the currency is available on the callback page
