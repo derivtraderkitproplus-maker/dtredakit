@@ -210,16 +210,19 @@
 }
 
 .ticker {
-    display: flex;
-    align-items: center;
-    width: max-content;
-    animation: marquee 25s linear infinite;
-    line-height: 1.5;
-    
-    &:hover {
-        animation-play-state: paused;
-    }
+  display: flex;
+  align-items: center;
+  width: max-content;
+  white-space: nowrap;
+  flex-shrink: 0;
+  animation: marquee 25s linear infinite;
+  line-height: 1.5;
+
+  &:hover {
+    animation-play-state: paused;
+  }
 }
+
 
 .ticker__item {
     display: flex;
