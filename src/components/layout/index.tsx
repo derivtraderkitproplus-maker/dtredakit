@@ -141,8 +141,7 @@ const handleStop = (e: any, data: any) => {
                 }
                 detected_currency = data.currency;
                 return false;
-            });
-
+            
             let hasMissingToken = false;
             let missingTokenCurrency = '';
 
