@@ -195,17 +195,25 @@
   color: #ffffff;
 }
 .ticker-wrap {
-    width: 100%;
-    overflow: hidden;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    
+    width: 100vw !important; /* Forces the container to occupy full viewport width */
+    max-width: 100vw !important;
+    overflow: hidden !important; /* Strictly chops off any layout wrapping breaks */
+    
     background-color: #15171f;
     border-bottom: 1px solid #222634;
     box-sizing: border-box;
     position: relative;
     z-index: 99;
-    display: flex;
     padding: 12px 0;
     min-height: 45px;
 }
+
 
 .ticker__track {
     display: flex !important;
