@@ -231,7 +231,7 @@ React.useEffect(() => {
         >
             {!isCallbackPage && <AppHeader isAuthenticating={isAuthenticating || !isInitialAuthCheckComplete} />}
             <div className="ticker-wrap">
-        <div className="ticker">
+        
           {/* First Track Copy */}
           <div className="ticker__track">
             <div className="ticker__item positive">VOL 10 <span className="price">10101.8054</span></div>
@@ -247,7 +247,7 @@ React.useEffect(() => {
             <div className="ticker__item negative">VOL 50 <span className="price">4510.1204</span></div>
             <div className="ticker__item positive">VOL 75 <span className="price">9842.3315</span></div>
           </div>
-        </div>
+        
       </div>
 
 
