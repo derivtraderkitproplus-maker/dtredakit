@@ -211,25 +211,33 @@
 
 .ticker {
     display: flex;
-    flex-direction: row; // Forces the two tracks side-by-side horizontally
+    flex-direction: row;
     width: max-content;
     white-space: nowrap;
     flex-shrink: 0;
     animation: marquee 25s linear infinite;
     line-height: 1.5;
+    gap: 2rem;
+
+    span, div, p { 
+        display: inline-block;
+        padding: 0 10px;
+    }
 
     &:hover {
         animation-play-state: paused;
     }
-
 }
+
 
 .ticker__track {
     display: flex;
     align-items: center;
     flex-shrink: 0;
+    gap: 2.5rem !important;
+    width: max-content;
 }
-  
+
 
 
 
