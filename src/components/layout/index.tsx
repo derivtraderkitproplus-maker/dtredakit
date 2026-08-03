@@ -193,17 +193,7 @@ const handleStop = (e: any, data: any) => {
     }, []);
   const [markets, setMarkets] = useState<TickerAsset[]>([]);
 
-  useEffect(() => {
-    const ws = new WebSocket('wss://://derivws.com');
-
-    ws.onopen = () => {
-      ws.send(JSON.stringify({
-        active_symbols: "brief",
-        product_type: "basic",
-        landing_company: "svg"
-      }));
-    };
-
+  
             
     useEffect(() => {
         const initialMarkets = [
