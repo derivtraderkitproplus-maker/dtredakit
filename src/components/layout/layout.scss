@@ -242,17 +242,20 @@
 
 
 .ticker__item {
-    display: flex;
+    display: flex !important;
     align-items: center;
-    gap: 8px;
+    gap: 16px !important; 
     padding: 6px 2rem;
     border-radius: 4px;
+    margin-right: 3rem !important; 
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 13px;
     font-weight: 700;
     white-space: nowrap;
     transition: background-color 0.2s ease;
-  color: #e2e8f0;
+    color: #e2e8f0;
+}
+
 
   &.positive {
     color: #4ade80; /* Clean, modern mint green */
