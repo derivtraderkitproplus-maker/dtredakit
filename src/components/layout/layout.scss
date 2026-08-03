@@ -210,25 +210,34 @@
 }
 
 .ticker {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  
-  white-space: nowrap;
+    display: flex;
+    align-items: center;
+    width: max-content;
+    white-space: nowrap;
+    flex-shrink: 0;
+    animation: marquee 25s linear infinite;
+    line-height: 1.5;
 
-  flex-shrink: 0;
-  animation: marquee 25s linear infinite;
-  line-height: 1.5;
+    &:hover {
+        animation-play-state: paused;
+    }
 
-  &:hover {
-    animation-play-state: paused;
-  }
+    // Add a class targeting the individual ticker value containers
+    &__item { 
+        display: inline-flex;
+        align-items: center;
+        padding: 0 24px; // Gives room between elements to prevent overlapping
+        flex-shrink: 0; // Ensures numbers don't squeeze down on mobile
+    }
 }
+
 .ticker__track {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
 }
+
+
 
 .ticker__item {
     display: flex;
