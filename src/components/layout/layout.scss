@@ -194,48 +194,15 @@
   background-color: #4bb543;
   color: #ffffff;
 }
-// Override third-party isolated header components
-:global(.app-header) {
-  border-bottom: 1px solid #f1f2f4 !important;
-  background-color: #ffffff !important;
-
-  // Force override on any tab, link, or item inside the nav bar
-  :global {
-    a, button, [role="tab"], div[class*="tab"], div[class*="item"] {
-      position: relative !important;
-      color: #666666 !important;
-      font-weight: 500 !important;
-      transition: color 0.15s ease-in-out !important;
-
-      &:hover {
-        color: #111111 !important;
-      }
-
-      // Force target active components dynamically
-      &[class*="active"], &[aria-selected="true"], &[class*="selected"] {
-        color: #ff444f !important; // Deriv Coral Red
-        font-weight: 600 !important;
-        background: transparent !important;
-
-        // Bottom underline accent marker
-        &::after {
-          content: '' !important;
-          position: absolute !important;
-          bottom: 0 !important;
-          left: 0 !important;
-          width: 100% !important;
-          height: 3px !important;
-          background-color: #ff444f !important;
-          border-radius: 3px 3px 0 0 !important;
-          display: block !important;
-        }
-      }
-
-      // Tint icons to match state colors
-      svg {
-        fill: currentColor !important;
-        stroke: currentColor !important;
-      }
-    }
+:global {
+  button[class*="active"], 
+  button[class*="selected"], 
+  a[class*="active"], 
+  [role="tab"][aria-selected="true"] {
+    color: #ff444f !important;
+    font-weight: 600 !important;
+    border-bottom: 3px solid #ff444f !important;
+    border-radius: 0 !important;
+    background: transparent !important;
   }
 }
