@@ -194,63 +194,51 @@
   background-color: #4bb543;
   color: #ffffff;
 }
-// Brand Color Configuration
-$color-deriv-coral: #ff444f;     // Deriv's primary coral red brand color
-$color-tab-inactive-text: #666666;// Muted gray for inactive elements
-$color-nav-border: #f1f2f4;       // Very light divider border
-$font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+// Brand Color Configurations
+$color-deriv-coral: #ff444f;
+$color-text-active: #111111;
+$color-text-inactive: #666666;
+$color-border-subtle: #f1f2f4;
 
-// Main navigation tab bar setup
-.tabs-navigation-container {
-  display: flex;
-  align-items: center;
-  gap: 32px;                      // Generous space between tab text
-  padding: 0 16px;
-  border-bottom: 1px solid $color-nav-border; // Clean bottom line separator
-  background-color: #ffffff;      // Flat, white workspace background
-  font-family: $font-stack;
+// Target the top header component directly
+.app-header {
+  border-bottom: 1px solid $color-border-subtle !important;
+  background-color: #ffffff !important;
 
-  .tab-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 4px;            // Vertical padding defines bar thickness
-    font-size: 14px;
-    font-weight: 500;
-    color: $color-tab-inactive-text;
-    text-decoration: none;
-    position: relative;
-    cursor: pointer;
-    transition: color 0.15s ease-in-out;
+  // Target the navigation link/tab elements inside Deriv's core component
+  a, button, [role="tab"] {
+    position: relative !important;
+    color: $color-text-inactive !important;
+    font-weight: 500 !important;
+    transition: color 0.15s ease-in-out !important;
 
-    // Hover feedback
     &:hover {
-      color: lighten($color-tab-inactive-text, 15%);
+      color: $color-text-active !important;
     }
 
-    // Active state with Deriv Coral accent line
-    &.active {
-      color: $color-deriv-coral;
-      font-weight: 600;
+    // Target the active state element (handles active classes or attributes)
+    &.active, &[aria-selected="true"], &[class*="active"] {
+      color: $color-deriv-coral !important;
+      font-weight: 600 !important;
+      background: transparent !important; // Removes any old block backgrounds
 
-      // The signature underline accent line
+      // Places the professional signature underline accent
       &::after {
         content: '';
         position: absolute;
-        bottom: -1px;             // Perfectly aligns over container bottom border
+        bottom: 0;
         left: 0;
         width: 100%;
-        height: 3px;              // Accent indicator line thickness
-        background-color: $color-deriv-coral;
+        height: 3px;
+        background-color: $color-deriv-coral !important;
         border-radius: 3px 3px 0 0;
       }
     }
 
-    // Sync SVG/Icon colors dynamically with text state
-    .tab-icon {
-      width: 16px;
-      height: 16px;
-      fill: currentColor;         // Inherits text color (gray or coral)
+    // Sync SVG icons inside the tabs to match the text states
+    svg {
+      fill: currentColor !important;
+      stroke: currentColor !important;
     }
   }
 }
