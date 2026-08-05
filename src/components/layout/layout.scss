@@ -194,51 +194,48 @@
   background-color: #4bb543;
   color: #ffffff;
 }
-// Brand Color Configurations
-$color-deriv-coral: #ff444f;
-$color-text-active: #111111;
-$color-text-inactive: #666666;
-$color-border-subtle: #f1f2f4;
-
-// Target the top header component directly
-.app-header {
-  border-bottom: 1px solid $color-border-subtle !important;
+// Override third-party isolated header components
+:global(.app-header) {
+  border-bottom: 1px solid #f1f2f4 !important;
   background-color: #ffffff !important;
 
-  // Target the navigation link/tab elements inside Deriv's core component
-  a, button, [role="tab"] {
-    position: relative !important;
-    color: $color-text-inactive !important;
-    font-weight: 500 !important;
-    transition: color 0.15s ease-in-out !important;
+  // Force override on any tab, link, or item inside the nav bar
+  :global {
+    a, button, [role="tab"], div[class*="tab"], div[class*="item"] {
+      position: relative !important;
+      color: #666666 !important;
+      font-weight: 500 !important;
+      transition: color 0.15s ease-in-out !important;
 
-    &:hover {
-      color: $color-text-active !important;
-    }
-
-    // Target the active state element (handles active classes or attributes)
-    &.active, &[aria-selected="true"], &[class*="active"] {
-      color: $color-deriv-coral !important;
-      font-weight: 600 !important;
-      background: transparent !important; // Removes any old block backgrounds
-
-      // Places the professional signature underline accent
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background-color: $color-deriv-coral !important;
-        border-radius: 3px 3px 0 0;
+      &:hover {
+        color: #111111 !important;
       }
-    }
 
-    // Sync SVG icons inside the tabs to match the text states
-    svg {
-      fill: currentColor !important;
-      stroke: currentColor !important;
+      // Force target active components dynamically
+      &[class*="active"], &[aria-selected="true"], &[class*="selected"] {
+        color: #ff444f !important; // Deriv Coral Red
+        font-weight: 600 !important;
+        background: transparent !important;
+
+        // Bottom underline accent marker
+        &::after {
+          content: '' !important;
+          position: absolute !important;
+          bottom: 0 !important;
+          left: 0 !important;
+          width: 100% !important;
+          height: 3px !important;
+          background-color: #ff444f !important;
+          border-radius: 3px 3px 0 0 !important;
+          display: block !important;
+        }
+      }
+
+      // Tint icons to match state colors
+      svg {
+        fill: currentColor !important;
+        stroke: currentColor !important;
+      }
     }
   }
 }
