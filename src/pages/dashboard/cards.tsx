@@ -138,7 +138,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                             boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
                             transition: 'all 0.2s ease',
                             minHeight: '160px',
-                            flex: 1
+                            flexShrink: 0,
                         }}>
 
                                 <div
