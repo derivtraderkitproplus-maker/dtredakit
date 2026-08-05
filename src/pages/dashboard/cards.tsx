@@ -139,7 +139,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                             transition: 'all 0.2s ease',
                             minHeight: '160px',
                             flex: 1
-                        }}
+                        }}>
 
                                 <div
                                     className={classNames('tab__dashboard__table__images', {
