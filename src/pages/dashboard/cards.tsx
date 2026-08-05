@@ -154,12 +154,16 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                                     }}
                                 >
                                     {icon}
-                                </div>
-                                <Text color='prominent' style={{ fontWeight: '600', fontSize: '14px', marginTop: '12px', color: '#1c1e21' }} size={is_mobile...
-
-                                    {content}
-                                </Text>
-                            </div>
+                               </div>
+<Text 
+    color='prominent' 
+    style={{ fontWeight: '600', fontSize: '14px', marginTop: '12px', color: '#1c1e21' }} 
+    size={is_mobile ? 'xs' : 's'}
+>
+    {content}
+</Text>
+</div>
+ 
                         );
                     })}
 
