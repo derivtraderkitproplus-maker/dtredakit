@@ -1,3 +1,74 @@
-.main-body {
-    flex-grow: 1;
+// Professional Trading Dashboard Layout Definitions
+$color-deriv-coral: #ff444f;
+$color-bg-card: #ffffff;
+$color-border-subtle: #f1f2f4;
+$color-text-title: #111111;
+$color-text-muted: #666666;
+$radius-smooth: 8px;
+
+// 1. FORCED NAVIGATION INJECTION (Breaks through isolated header styling)
+:global {
+  header, .app-header, div[class*="header"], div[class*="Navbar"] {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid $color-border-subtle !important;
+
+    a, button, [role="tab"], div[class*="tab"] {
+      color: $color-text-muted !important;
+      font-weight: 500 !important;
+      position: relative !important;
+      border: none !important;
+
+      &:hover {
+        color: $color-text-title !important;
+      }
+
+      &[class*="active"], &[class*="selected"], &[aria-selected="true"] {
+        color: $color-deriv-coral !important;
+        font-weight: 600 !important;
+        background: transparent !important;
+
+        &::after {
+          content: '' !important;
+          position: absolute !important;
+          bottom: 0 !important;
+          left: 0 !important;
+          width: 100% !important;
+          height: 3px !important;
+          background-color: $color-deriv-coral !important;
+          border-radius: 3px 3px 0 0 !important;
+        }
+      }
+    }
+  }
 }
+
+// 2. CREATION BLOCK CARD DESIGN (Local, Bot Builder, Quick Strategy)
+.main-body {
+  flex-grow: 1;
+  background-color: #f8f9fa; // Soft off-white dashboard canvas background
+  padding: 32px 24px;
+
+  // Professional style adjustment for card sections
+  div[class*="card"], div[class*="item"], .option-card {
+    background-color: $color-bg-card !important;
+    border: 1px solid $color-border-subtle !important;
+    border-radius: $radius-smooth !important;
+    padding: 24px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.2s ease-in-out !important;
+
+    &:hover {
+      border-color: darken($color-border-subtle, 10%) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+      transform: translateY(-1px);
+    }
+
+    // Align title headers nicely inside cards
+    h3, span, p, [class*="title"] {
+      color: $color-text-title !important;
+      font-weight: 600 !important;
+      font-size: 15px !important;
+    }
+  }
+}
+
