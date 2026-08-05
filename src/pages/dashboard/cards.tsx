@@ -122,12 +122,25 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                     {actions.map(icons => {
                         const { icon, content, callback, id } = icons;
                         return (
-                            <div
-                                key={id}
-                                className={classNames('tab__dashboard__table__block', {
-                                    'tab__dashboard__table__block--minimized': has_dashboard_strategies && is_mobile,
-                                })}
-                            >
+                       <div
+                        key={id}
+                        className={classNames('tab__dashboard__table__card')}
+                        style={{
+                            background: '#ffffff',
+                            border: '1px solid #e5e7eb',
+                            borderRadius: '12px',
+                            padding: '24px 16px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                            transition: 'all 0.2s ease',
+                            minHeight: '160px',
+                            flex: 1
+                        }}
+
                                 <div
                                     className={classNames('tab__dashboard__table__images', {
                                         'tab__dashboard__table__images--minimized': has_dashboard_strategies,
@@ -142,7 +155,8 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                                 >
                                     {icon}
                                 </div>
-                                <Text color='prominent' size={is_mobile ? 'xxs' : 'xs'}>
+                                <Text color='prominent' style={{ fontWeight: '600', fontSize: '14px', marginTop: '12px', color: '#1c1e21' }} size={is_mobile...
+
                                     {content}
                                 </Text>
                             </div>
