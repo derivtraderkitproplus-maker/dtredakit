@@ -114,32 +114,46 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                 })}
             >
                 <div
-                    className={classNames('tab__dashboard__table__tiles', {
-                        'tab__dashboard__table__tiles--minimized': has_dashboard_strategies && is_mobile,
-                    })}
-                    id='tab__dashboard__table__tiles'
-                >
+    className={classNames('tab__dashboard__table__tiles', {
+        'tab__dashboard__table__tiles--minimized': has_dashboard_tiles
+    })}
+    id='tab__dashboard__table__tiles'
+    style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '12px',
+        justifyContent: 'center',
+        width: '100%',
+        padding: '0 8px',
+        boxSizing: 'border-box'
+    }}
+>
+
                     {actions.map(icons => {
                         const { icon, content, callback, id } = icons;
                         return (
                        <div
                         key={id}
                         className={classNames('tab__dashboard__table__card')}
-                        style={{
-                            background: '#ffffff',
-                            border: '1px solid #e5e7eb',
-                            borderRadius: '12px',
-                            padding: '24px 16px',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            cursor: 'pointer',
-                            boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-                            transition: 'all 0.2s ease',
-                            minHeight: '160px',
-                            flexShrink: 0,
-                        }}>
+                                  style={{
+              background: '#ffffff',
+              border: '1px solid #e5e7eb',
+              borderRadius: '12px',
+              padding: '12px 8px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+              transition: 'all 0.2s ease',
+              minHeight: '160px',
+              flexShrink: 1,
+              width: 'calc(50% - 12px)',
+              minWidth: '140px',
+              boxSizing: 'border-box'
+          }}>
+
 
                                 <div
                                     className={classNames('tab__dashboard__table__images', {
