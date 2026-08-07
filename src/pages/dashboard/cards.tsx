@@ -105,8 +105,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
     ]
         // Hide the Google Drive tile when the feature isn't configured (no GD_* env vars).
         .filter(action => action.id !== 'google-drive' || is_google_drive_configured);
-
-        return React.useMemo(
+    return React.useMemo(
         () => (
             <div
                 className={classNames('tab__dashboard__table', {
@@ -138,7 +137,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                                     background: '#ffffff',
                                     border: '1px solid #e5e7eb',
                                     borderRadius: '12px',
-                                    padding: '16px 12px', // Slightly adjusted padding for breathability
+                                    padding: '16px 12px',
                                     display: 'flex',
                                     flexDirection: 'column',
                                     alignItems: 'center',
@@ -151,7 +150,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                                     width: 'calc(50% - 12px)',
                                     minWidth: '140px',
                                     boxSizing: 'border-box',
-                                    overflow: 'hidden' // Prevents any rogue elements from bleeding outward
+                                    overflow: 'hidden'
                                 }}
                             >
                                 <div
@@ -161,9 +160,9 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                                     id={id}
                                     style={{ 
                                         width: '100%',
-                                        maxWidth: '64px', // Prevents oversized vector graphics/SVGs from cutting off
+                                        maxWidth: '64px', 
                                         height: 'auto',
-                                        aspectRatio: '1 / 1', // Guarantees a perfect square footprint
+                                        aspectRatio: '1 / 1', 
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center'
@@ -181,11 +180,11 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                                         fontSize: '14px', 
                                         marginTop: '12px', 
                                         color: '#1c1e21',
-                                        textAlign: 'center', // 100% Guarantees centered alignment
-                                        width: '100%',        // Spans the safe inside boundary of the card
-                                        whiteSpace: 'normal', // Forces long text blocks to drop to new lines
-                                        wordBreak: 'break-word', // Breaks exceptionally long individual words safely
-                                        overflowWrap: 'anywhere' // Ultimate safety fallback for responsive wrappers
+                                        textAlign: 'center', 
+                                        width: '100%',        
+                                        whiteSpace: 'normal', 
+                                        wordBreak: 'break-word', 
+                                        overflowWrap: 'anywhere' 
                                     }} 
                                     size={is_mobile ? 'xs' : 's'}
                                 >
@@ -226,18 +225,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                 <DashboardBotList />
             </div>
         ),
-        [
-            is_dialog_open, 
-            has_dashboard_strategies, 
-            is_google_drive_configured, 
-            has_dashboard_tiles, 
-            is_mobile, 
-            isDesktop, 
-            actions, 
-            dialog_options, 
-            onCloseDialog,
-            localize
-        ]
+        [is_dialog_open, has_dashboard_strategies, is_google_drive_configured, has_dashboard_tiles, is_mobile, isDesktop, actions, dialog_options, onCloseDialog, localize, setPreviewOnPopup]
     );
 });
 
