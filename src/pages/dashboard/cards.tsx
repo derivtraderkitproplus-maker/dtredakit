@@ -106,7 +106,7 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
         // Hide the Google Drive tile when the feature isn't configured (no GD_* env vars).
         .filter(action => action.id !== 'google-drive' || is_google_drive_configured);
 
-    return React.useMemo(
+        return React.useMemo(
         () => (
             <div
                 className={classNames('tab__dashboard__table', {
@@ -114,76 +114,90 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                 })}
             >
                 <div
-    className={classNames('tab__dashboard__table__tiles', {
-        'tab__dashboard__table__tiles--minimized': has_dashboard_tiles
-    })}
-    id='tab__dashboard__table__tiles'
-    style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '12px',
-        justifyContent: 'center',
-        width: '100%',
-        padding: '0 8px',
-        boxSizing: 'border-box'
-    }}
->
-
-                    {actions.map(icons => {
+                    className={classNames('tab__dashboard__table__tiles', {
+                        'tab__dashboard__table__tiles--minimized': has_dashboard_tiles
+                    })}
+                    id='tab__dashboard__table__tiles'
+                    style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: '12px',
+                        justifyContent: 'center',
+                        width: '100%',
+                        padding: '0 8px',
+                        boxSizing: 'border-box'
+                    }}
+                >
+                    {actions && actions.map(icons => {
                         const { icon, content, callback, id } = icons;
                         return (
-                       <div
-                        key={id}
-                        className={classNames('tab__dashboard__table__card')}
-                                  style={{
-              background: '#ffffff',
-              border: '1px solid #e5e7eb',
-              borderRadius: '12px',
-              padding: '12px 8px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-              transition: 'all 0.2s ease',
-              minHeight: '160px',
-              flexShrink: 1,
-              width: 'calc(50% - 12px)',
-              minWidth: '140px',
-              boxSizing: 'border-box'
-          }}>
-
-
+                            <div
+                                key={id}
+                                className={classNames('tab__dashboard__table__card')}
+                                style={{
+                                    background: '#ffffff',
+                                    border: '1px solid #e5e7eb',
+                                    borderRadius: '12px',
+                                    padding: '16px 12px', // Slightly adjusted padding for breathability
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    cursor: 'pointer',
+                                    boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                                    transition: 'all 0.2s ease',
+                                    minHeight: '160px',
+                                    flexShrink: 1,
+                                    width: 'calc(50% - 12px)',
+                                    minWidth: '140px',
+                                    boxSizing: 'border-box',
+                                    overflow: 'hidden' // Prevents any rogue elements from bleeding outward
+                                }}
+                            >
                                 <div
                                     className={classNames('tab__dashboard__table__images', {
                                         'tab__dashboard__table__images--minimized': has_dashboard_strategies,
                                     })}
-                                    width='8rem'
-                                    height='8rem'
-                                    icon={icon}
                                     id={id}
+                                    style={{ 
+                                        width: '100%',
+                                        maxWidth: '64px', // Prevents oversized vector graphics/SVGs from cutting off
+                                        height: 'auto',
+                                        aspectRatio: '1 / 1', // Guarantees a perfect square footprint
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}
                                     onClick={() => {
-                                        callback();
+                                        if (typeof callback === 'function') callback();
                                     }}
                                 >
                                     {icon}
-                               </div>
-<Text 
-    color='prominent' 
-    style={{ fontWeight: '600', fontSize: '14px', marginTop: '12px', color: '#1c1e21' }} 
-    size={is_mobile ? 'xs' : 's'}
->
-    {content}
-</Text>
-</div>
- 
+                                </div>
+                                <Text 
+                                    color='prominent' 
+                                    style={{ 
+                                        fontWeight: '600', 
+                                        fontSize: '14px', 
+                                        marginTop: '12px', 
+                                        color: '#1c1e21',
+                                        textAlign: 'center', // 100% Guarantees centered alignment
+                                        width: '100%',        // Spans the safe inside boundary of the card
+                                        whiteSpace: 'normal', // Forces long text blocks to drop to new lines
+                                        wordBreak: 'break-word', // Breaks exceptionally long individual words safely
+                                        overflowWrap: 'anywhere' // Ultimate safety fallback for responsive wrappers
+                                    }} 
+                                    size={is_mobile ? 'xs' : 's'}
+                                >
+                                    {content}
+                                </Text>
+                            </div>
                         );
                     })}
 
                     {!isDesktop ? (
                         <Dialog
-                            title={dialog_options.title}
+                            title={dialog_options?.title || ''}
                             is_visible={is_dialog_open}
                             onCancel={onCloseDialog}
                             is_mobile_full_width
@@ -198,8 +212,8 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                             className='load-strategy__wrapper'
                             header={localize('Load strategy')}
                             onClickClose={() => {
-                                setPreviewOnPopup(false);
-                                onCloseDialog();
+                                if (typeof setPreviewOnPopup === 'function') setPreviewOnPopup(false);
+                                if (typeof onCloseDialog === 'function') onCloseDialog();
                             }}
                             height_offset='80px'
                         >
@@ -212,8 +226,18 @@ const Cards = observer(({ is_mobile, has_dashboard_strategies }: TCardProps) => 
                 <DashboardBotList />
             </div>
         ),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [is_dialog_open, has_dashboard_strategies, is_google_drive_configured]
+        [
+            is_dialog_open, 
+            has_dashboard_strategies, 
+            is_google_drive_configured, 
+            has_dashboard_tiles, 
+            is_mobile, 
+            isDesktop, 
+            actions, 
+            dialog_options, 
+            onCloseDialog,
+            localize
+        ]
     );
 });
 
